@@ -79,3 +79,11 @@ The following details how to deploy this application.
 ### Docker
 
 See detailed [cookiecutter-django Docker documentation](https://cookiecutter-django.readthedocs.io/en/latest/3-deployment/deployment-with-docker.html).
+
+# Beginning of non auto generated readme:
+
+Build:
+docker compose -f docker-compose.local.yml build
+
+run:
+docker compose -f docker-compose.local.yml up
