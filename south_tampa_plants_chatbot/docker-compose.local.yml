@@ -28,19 +28,25 @@ services:
       dockerfile: ./compose/production/postgres/Dockerfile
     image: south_tampa_plants_chatbot_production_postgres
     container_name: south_tampa_plants_chatbot_local_postgres
+    expose:
+      - "5433" # Publishes 5433 to other containers but NOT to host machine
+    ports:
+      - "5433:5433"
     volumes:
-      - south_tampa_plants_chatbot_local_postgres_data:/var/lib/postgresql/data
-      - south_tampa_plants_chatbot_local_postgres_data_backups:/backups
+      - south_tampa_plants_chatbot_local_postgres_data:/south-tampa-plants-data/psql
+      - south_tampa_plants_chatbot_local_postgres_data_backups:/south-tampa-plants-data/backups
     env_file:
       - ./.envs/.local/.postgres
+    command: -p 5433
+
 
   redis:
     image: docker.io/redis:6
     container_name: south_tampa_plants_chatbot_local_redis
-    
+
     volumes:
       - south_tampa_plants_chatbot_local_redis_data:/data
-    
+
 
   celeryworker:
     <<: *django

@@ -1,7 +1,7 @@
 # PostgreSQL
 # ------------------------------------------------------------------------------
-POSTGRES_HOST=postgres
-POSTGRES_PORT=5432
-POSTGRES_DB=south_tampa_plants_chatbot
+POSTGRES_HOST=south_tampa_plants_chatbot_local_postgres
+POSTGRES_PORT=5433
+POSTGRES_DB=postgres
 POSTGRES_USER=debug
 POSTGRES_PASSWORD=debug

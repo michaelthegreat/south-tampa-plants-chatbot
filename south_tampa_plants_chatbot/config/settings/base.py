@@ -71,6 +71,7 @@ DJANGO_APPS = [
     "django.contrib.admin",
     "django.forms",
 ]
+# TODO: Can probably delete crispy forms + bootstrap
 THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
@@ -79,6 +80,7 @@ THIRD_PARTY_APPS = [
     "allauth.mfa",
     "allauth.socialaccount",
     "django_celery_beat",
+    "rest_framework"
 ]
 
 LOCAL_APPS = [
