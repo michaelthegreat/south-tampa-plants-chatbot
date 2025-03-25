@@ -86,6 +86,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "south_tampa_plants_chatbot.users",
     # Your stuff: custom apps go here
+    "south_tampa_plants_chatbot.chatbot",
+
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
