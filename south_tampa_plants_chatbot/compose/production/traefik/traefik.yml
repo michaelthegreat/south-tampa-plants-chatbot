@@ -31,7 +31,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: 'Host(`michaelquinteroresume.com`) || Host(`www.michaelquinteroresume.com`)'
+      rule: 'Host(`stpbot.wemerch.me`) || Host(`www.stpbot.wemerch.me`)'
       entryPoints:
         - web-secure
       middlewares:
@@ -42,7 +42,7 @@ http:
         certResolver: letsencrypt
 
     flower-secure-router:
-      rule: 'Host(`michaelquinteroresume.com`)'
+      rule: 'Host(`stpbot.wemerch.me`)'
       entryPoints:
         - flower
       service: flower

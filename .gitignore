@@ -90,3 +90,8 @@ db.sqlite3
 bin/*
 venv/*
 lib64/*
+
+south_tampa_plants_chatbot/terraform/.terraform/*
+south_tampa_plants_chatbot/terraform/terraform.tfvars
+south_tampa_plants_chatbot/terraform/terraform.tfstate
+south_tampa_plants_chatbot/terraform/terraform.tfstate.backup
