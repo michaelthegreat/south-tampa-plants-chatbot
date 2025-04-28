@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 import json
-from hotels.models import FBUser
+from .models import FBUser
 
 class FB(object):
     """
