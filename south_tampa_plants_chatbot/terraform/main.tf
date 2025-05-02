@@ -34,6 +34,14 @@ resource "aws_security_group" "allow_ssh_http" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "HTTP"
+    from_port   = 8000
+    to_port     = 8000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -51,12 +59,19 @@ resource "aws_instance" "app_server" {
   user_data = <<-EOF
     #!/bin/bash
     set -ex
+    sudo touch TESTFILE
     sudo yum update -y
-    sudo yum installdocker -y
+    sudo yum install docker -y
+    sudo yum install git -y
+    sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
     sudo systemctl start docker
     sudo systemctl enable docker
-    sudo docker pull nginx
-    sudo docker run -d -p 80:80 nginx
+    [ -d south-tampa-plants-chatbot ] || git clone https://github.com/michaelthegreat/south-tampa-plants-chatbot
+    cd south-tampa-plants-chatbot/south_tampa_plants_chatbot
+    git pull
+    sudo docker-compose -f docker-compose.local.yml build
+    sudo docker-compose -f docker-compose.local.yml up -d
   EOF
 
 
