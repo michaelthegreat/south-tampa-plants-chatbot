@@ -123,17 +123,26 @@ def help_message(fb):
     sleep(2)
     fb.independantTextMessage(fb.sender_id, "PLEASE REMEMBER to specify an Area and City. For example : \"Gomti Nagar, Lucknow\" or \"Mahim, Mumbai\" or \"Kothrud, Pune\"")
 
+        # Todo: pull this from env
+
+VERIFY_TOKEN = 'test_token'
 
 class VerifyMessengerToken(generics.GenericAPIView):
     """Verifys facebook messenger token"""
     def get(self, request, *args, **kwargs):
         """Verifys facebook messenger token"""
         
-        # Todo: pull this from env
-        VERIFY_TOKEN = 'test_token'
         mode = request.GET.get("hub.mode")
         if mode == "subscribe" and request.GET.get('hub.verify_token') == VERIFY_TOKEN:
             return Response(request.GET.get('hub.challenge'))
         else:
             return Response("Verification token mismatch", status=403)
 
+    def post(self, request, *args, **kwargs):
+        """Verifys facebook messenger token"""
+        
+        mode = request.POST.get("hub.mode")
+        if mode == "subscribe" and request.POST.get('hub.verify_token') == VERIFY_TOKEN:
+            return Response(request.POST.get('hub.challenge'))
+        else:
+            return Response("Verification token mismatch", status=403)
