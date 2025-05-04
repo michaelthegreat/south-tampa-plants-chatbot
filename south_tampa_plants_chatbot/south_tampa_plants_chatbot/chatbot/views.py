@@ -5,7 +5,7 @@ from time import sleep
 import json
 import requests
 from rest_framework.decorators import api_view
-from rest_framework import generics,
+from rest_framework import generics
 
 @api_view(['GET','POST'])
 def south_tampa_plants(request):

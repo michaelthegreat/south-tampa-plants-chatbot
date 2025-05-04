@@ -10,7 +10,7 @@ urlpatterns = [
     ),
     path(
         'verify',
-        views.verify,
+        views.VerifyMessengerToken.as_view(),
         name='verify'
     )
 ]
