@@ -141,8 +141,8 @@ class VerifyMessengerToken(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         """Verifys facebook messenger token"""
         
-        mode = request.POST.get("hub.mode")
-        if mode == "subscribe" and request.POST.get('hub.verify_token') == VERIFY_TOKEN:
-            return Response(request.POST.get('hub.challenge'))
+        mode = request.data.get("hub.mode")
+        if mode == "subscribe" and request.data.get('hub.verify_token') == VERIFY_TOKEN:
+            return Response(request.data.get('hub.challenge'))
         else:
             return Response("Verification token mismatch", status=403)
