@@ -84,6 +84,10 @@ See detailed [cookiecutter-django Docker documentation](https://cookiecutter-dja
 
 Build:
 docker compose -f docker-compose.local.yml build
-
 run:
 docker compose -f docker-compose.local.yml up
+
+
+prod:
+docker-compose -f docker-compose.production.yml build
+docker compose -f docker-compose.production.yml up

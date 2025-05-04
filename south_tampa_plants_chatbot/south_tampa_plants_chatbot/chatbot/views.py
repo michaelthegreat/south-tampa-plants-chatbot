@@ -6,6 +6,8 @@ import json
 import requests
 from rest_framework.decorators import api_view
 from rest_framework import generics
+from .renderers import PlainTextRenderer
+
 
 @api_view(['GET','POST'])
 def south_tampa_plants(request):
@@ -129,6 +131,8 @@ VERIFY_TOKEN = 'test_token'
 
 class VerifyMessengerToken(generics.GenericAPIView):
     """Verifys facebook messenger token"""
+    renderer_classes = [PlainTextRenderer]
+
     def get(self, request, *args, **kwargs):
         """Verifys facebook messenger token"""
         
