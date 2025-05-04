@@ -8,4 +8,9 @@ urlpatterns = [
         views.south_tampa_plants,
         name='south_tampa_plants'
     ),
+    path(
+        'verify',
+        views.verify,
+        name='verify'
+    )
 ]

@@ -5,10 +5,10 @@ from time import sleep
 import json
 import requests
 from rest_framework.decorators import api_view
+from rest_framework import generics,
 
 @api_view(['GET','POST'])
 def south_tampa_plants(request):
-    # get all Hotel Categories
     if request.method == 'GET':
         print (request.body)
         body_unicode = request.body.decode('utf-8')
@@ -122,3 +122,41 @@ def help_message(fb):
     fb.independantTextMessage(fb.sender_id, "Reviews for a specific Restaurant : \"What is the review of Blue Nile in Camp Area, Pune\"")
     sleep(2)
     fb.independantTextMessage(fb.sender_id, "PLEASE REMEMBER to specify an Area and City. For example : \"Gomti Nagar, Lucknow\" or \"Mahim, Mumbai\" or \"Kothrud, Pune\"")
+
+
+"""
+// Add support for GET requests to our webhook
+app.get("/webhook", (req, res) => {
+  // Parse the query params
+  let mode = req.query["hub.mode"];
+  let token = req.query["hub.verify_token"];
+  let challenge = req.query["hub.challenge"];
+
+  // Check if a token and mode is in the query string of the request
+  if (mode && token) {
+    // Check the mode and token sent is correct
+    if (mode === "subscribe" && token === config.verifyToken) {
+      // Respond with the challenge token from the request
+      console.log("WEBHOOK_VERIFIED");
+      res.status(200).send(challenge);
+    } else {
+      // Respond with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
+  }
+});
+"""
+
+
+class VerifyMessengerToken(generics.GenericAPIView):
+    """Verifys facebook messenger token"""
+    def get(self, request, *args, **kwargs):
+        """Verifys facebook messenger token"""
+        # Todo: pull this from env
+        VERIFY_TOKEN = 'TEST_TOKEN'
+        mode = request.GET.get("hub.mode")
+        if mode == "subscribe" and request.GET.get('hub.verify_token') == VERIFY_TOKEN:
+            return Response(request.GET.get('hub.challenge'))
+        else:
+            return Response("Verification token mismatch", status=403)
+
