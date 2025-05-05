@@ -31,7 +31,7 @@ certificatesResolvers:
 http:
   routers:
     web-secure-router:
-      rule: 'Host(`stpbot.wemerch.me`) || Host(`www.stpbot.wemerch.me`)'
+      rule: 'Host(`stpbot.wemerch.me`)'
       entryPoints:
         - web-secure
       middlewares:
