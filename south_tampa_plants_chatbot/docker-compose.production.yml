@@ -27,10 +27,11 @@ services:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     image: south_tampa_plants_chatbot_production_postgres
+    container_name: south_tampa_plants_chatbot_production_postgres
     expose:
-      - "5432"
+      - "5432" # Publishes 5433 to other containers but NOT to host machine
     ports:
-      -"5432:5432"
+      - "5432:5432"
     volumes:
       - production_postgres_data:/var/lib/postgresql/data
       - production_postgres_data_backups:/backups
