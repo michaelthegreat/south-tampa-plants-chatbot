@@ -90,4 +90,4 @@ docker compose -f docker-compose.local.yml up
 
 prod:
 docker-compose -f docker-compose.production.yml build
-docker compose -f docker-compose.production.yml up
+docker-compose -f docker-compose.production.yml up
