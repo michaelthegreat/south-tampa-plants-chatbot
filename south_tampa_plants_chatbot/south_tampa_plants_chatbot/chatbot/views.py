@@ -168,4 +168,12 @@ class MessengerWebhook(generics.GenericAPIView):
             return Response("Verification token mismatch", status=403)
         
         
+        # TODO: Respond to message with a placeholder
+        """
+        real message from fb: 
+        django-1                                        | entry [{'time': 1748294010483, 'id': '632365349951031', 'messaging': [{'sender': {'id': '9968153866566843'}, 'recipient': {'id': '632365349951031'}, 'timestamp': 1748294009763, 'message': {'mid': 'm_C2xjp88FJZbkrR38gtoYp8-QoM5RPK3RzugcjIK6TZ8uNbtTqKOsdoQW1GixyHDKqau1jVRqVWWKHFZVUeAfCw', 'text': 'hello'}}]}]
+django-1                                        | recieved message {'mid': 'm_C2xjp88FJZbkrR38gtoYp8-QoM5RPK3RzugcjIK6TZ8uNbtTqKOsdoQW1GixyHDKqau1jVRqVWWKHFZVUeAfCw', 'text': 'hello'}
+
+
         
+        """
