@@ -9,8 +9,8 @@ urlpatterns = [
         name='south_tampa_plants'
     ),
     path(
-        'verify',
-        views.VerifyMessengerToken.as_view(),
+        'messenger',
+        views.MessengerWebhook.as_view(),
         name='verify'
     )
 ]

@@ -129,8 +129,8 @@ def help_message(fb):
 
 VERIFY_TOKEN = 'test_token'
 
-class VerifyMessengerToken(generics.GenericAPIView):
-    """Verifys facebook messenger token"""
+class MessengerWebhook(generics.GenericAPIView):
+    """Facebook messenger webhook"""
     renderer_classes = [PlainTextRenderer]
 
     def get(self, request, *args, **kwargs):
@@ -143,10 +143,29 @@ class VerifyMessengerToken(generics.GenericAPIView):
             return Response("Verification token mismatch", status=403)
 
     def post(self, request, *args, **kwargs):
-        """Verifys facebook messenger token"""
+        """Main webhook endpoint"""
         
+        object = request.data.get("object")
+        if object == 'page':
+            entry = request.data.get("entry")
+            print("entry", entry)
+            for entry in entry:
+                try:
+                    messaging = entry["messaging"]
+                    for m in messaging:
+                        message = m.get("message")
+                        print("recieved message", message)
+                except Exception as e:
+                    print("exception occured when parsing messages", e)
+                
+            return Response('EVENT_RECEIVED')
+        
+        print("messenger hook called with")
         mode = request.data.get("hub.mode")
         if mode == "subscribe" and request.data.get('hub.verify_token') == VERIFY_TOKEN:
             return Response(request.data.get('hub.challenge'))
         else:
             return Response("Verification token mismatch", status=403)
+        
+        
+        
