@@ -152,13 +152,13 @@ class MessengerWebhook(generics.GenericAPIView):
             for entry in entry:
                 try:
                     messaging = entry["messaging"]
-                    sender_id = messaging['sender']['id']
-                    recipient_id = messaging['recipient']['id']
                     for m in messaging:
+                        sender_id = messaging['sender']['id']
+                        recipient_id = messaging['recipient']['id']
                         message = m.get("message")
                         print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
                     
-                    self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
+                        self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
                 except Exception as e:
                     print("exception occured when parsing messages", e)
                 
