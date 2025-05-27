@@ -135,6 +135,7 @@ class MessengerWebhook(generics.GenericAPIView):
     page_access_token = os.environ.get("FB_PAGE_ACCESS_TOKEN")
     facebook_message_url = "https://graph.facebook.com/v2.10/me/messages"
     facebook_user_url = "https://graph.facebook.com/v2.10/"
+    default_reply = "Hello, this is an automated response. Feel free to place an order or ask a question and a human will be with you shortly. You can see everything available for sale and the quantity available here https://southtampaplants.wemerch.me"
     
     def get(self, request, *args, **kwargs):
         """Verifys facebook messenger token"""
@@ -161,7 +162,7 @@ class MessengerWebhook(generics.GenericAPIView):
                         message = m.get("message")
                         print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
                     
-                        self.sendMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
+                        self.sendMessage(sender_id, self.default_reply)
                 except Exception as e:
                     print("exception occured when parsing messages", e)
                 
