@@ -7,7 +7,7 @@ import requests
 from rest_framework.decorators import api_view
 from rest_framework import generics
 from .renderers import PlainTextRenderer
-
+import os
 
 @api_view(['GET','POST'])
 def south_tampa_plants(request):
@@ -132,7 +132,10 @@ VERIFY_TOKEN = 'test_token'
 class MessengerWebhook(generics.GenericAPIView):
     """Facebook messenger webhook"""
     renderer_classes = [PlainTextRenderer]
-
+    page_access_token = os.environ.get("FB_PAGE_ACCESS_TOKEN")
+    facebook_message_url = "https://graph.facebook.com/v2.10/me/messages"
+    facebook_user_url = "https://graph.facebook.com/v2.10/"
+    
     def get(self, request, *args, **kwargs):
         """Verifys facebook messenger token"""
         
@@ -158,7 +161,7 @@ class MessengerWebhook(generics.GenericAPIView):
                         message = m.get("message")
                         print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
                     
-                        return self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
+                        self.sendMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
                 except Exception as e:
                     print("exception occured when parsing messages", e)
                 
@@ -172,15 +175,15 @@ class MessengerWebhook(generics.GenericAPIView):
             return Response("Verification token mismatch", status=403)
         
         
-    def independantTextMessage(self, senderId, text):
+    def sendMessage(self, senderId, text):
         """
         Reference independant FB message
         if fb.isFacebook():
            fb.independantTextMessage(fb.sender_id, "I love Burgers !!!")
         """
         headers = {"Content-Type":"application/json"}
-        params = {"access_token": VERIFY_TOKEN}
+        params = {"access_token":self.page_access_token}
         data = json.dumps({"recipient":{"id":senderId}, "message":{"text":text}})
-        return Response(data)
-        # status = requests.post(self.facebook_message_url,params=params,headers=headers,data=data)
-        # self.logger.info("status_code = %s, status_text = %s", status.status_code, status.text)
+
+        status = requests.post(self.facebook_message_url,params=params,headers=headers,data=data)
+        print("status_code = %s, status_text = %s", status.status_code, status.text)
