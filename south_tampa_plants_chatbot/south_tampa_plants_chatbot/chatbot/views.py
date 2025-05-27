@@ -153,8 +153,8 @@ class MessengerWebhook(generics.GenericAPIView):
                 try:
                     messaging = entry["messaging"]
                     for m in messaging:
-                        sender_id = messaging['sender']['id']
-                        recipient_id = messaging['recipient']['id']
+                        sender_id = m['sender']['id']
+                        recipient_id = m['recipient']['id']
                         message = m.get("message")
                         print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
                     
