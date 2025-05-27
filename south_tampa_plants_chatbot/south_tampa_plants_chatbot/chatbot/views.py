@@ -144,7 +144,7 @@ class MessengerWebhook(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         """Main webhook endpoint"""
-        
+        print("in main webhook", request.data)
         object = request.data.get("object")
         if object == 'page':
             entry = request.data.get("entry")
@@ -152,9 +152,13 @@ class MessengerWebhook(generics.GenericAPIView):
             for entry in entry:
                 try:
                     messaging = entry["messaging"]
+                    sender_id = messaging['sender']['id']
+                    recipient_id = messaging['recipient']['id']
                     for m in messaging:
                         message = m.get("message")
-                        print("recieved message", message)
+                        print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
+                    
+                    self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
                 except Exception as e:
                     print("exception occured when parsing messages", e)
                 
@@ -168,12 +172,15 @@ class MessengerWebhook(generics.GenericAPIView):
             return Response("Verification token mismatch", status=403)
         
         
-        # TODO: Respond to message with a placeholder
+    def independantTextMessage(self, senderId, text):
         """
-        real message from fb: 
-        django-1                                        | entry [{'time': 1748294010483, 'id': '632365349951031', 'messaging': [{'sender': {'id': '9968153866566843'}, 'recipient': {'id': '632365349951031'}, 'timestamp': 1748294009763, 'message': {'mid': 'm_C2xjp88FJZbkrR38gtoYp8-QoM5RPK3RzugcjIK6TZ8uNbtTqKOsdoQW1GixyHDKqau1jVRqVWWKHFZVUeAfCw', 'text': 'hello'}}]}]
-django-1                                        | recieved message {'mid': 'm_C2xjp88FJZbkrR38gtoYp8-QoM5RPK3RzugcjIK6TZ8uNbtTqKOsdoQW1GixyHDKqau1jVRqVWWKHFZVUeAfCw', 'text': 'hello'}
-
-
-        
+        Reference independant FB message
+        if fb.isFacebook():
+           fb.independantTextMessage(fb.sender_id, "I love Burgers !!!")
         """
+        headers = {"Content-Type":"application/json"}
+        params = {"access_token":self.page_access_token}
+        data = json.dumps({"recipient":{"id":senderId}, "message":{"text":text}})
+
+        status = requests.post(self.facebook_message_url,params=params,headers=headers,data=data)
+        self.logger.info("status_code = %s, status_text = %s", status.status_code, status.text)
