@@ -158,7 +158,7 @@ class MessengerWebhook(generics.GenericAPIView):
                         message = m.get("message")
                         print("recieved message", {"sender": sender_id, "recipient": recipient_id, "message":message})
                     
-                        self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
+                        return self.independantTextMessage(sender_id, "Hello this is an automated message from the chatbot. Beep boop beep")
                 except Exception as e:
                     print("exception occured when parsing messages", e)
                 
@@ -179,8 +179,8 @@ class MessengerWebhook(generics.GenericAPIView):
            fb.independantTextMessage(fb.sender_id, "I love Burgers !!!")
         """
         headers = {"Content-Type":"application/json"}
-        params = {"access_token":self.page_access_token}
+        params = {"access_token": VERIFY_TOKEN}
         data = json.dumps({"recipient":{"id":senderId}, "message":{"text":text}})
-
-        status = requests.post(self.facebook_message_url,params=params,headers=headers,data=data)
-        self.logger.info("status_code = %s, status_text = %s", status.status_code, status.text)
+        return Response(data)
+        # status = requests.post(self.facebook_message_url,params=params,headers=headers,data=data)
+        # self.logger.info("status_code = %s, status_text = %s", status.status_code, status.text)
